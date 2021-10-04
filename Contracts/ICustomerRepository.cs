@@ -8,5 +8,7 @@ namespace Contracts
     public interface ICustomerRepository
     {
         IEnumerable<Customer> GetAllCustomers();
+
+        Customer GetCustomer(int id);
     }
 }

@@ -18,5 +18,11 @@ namespace Repository
             FindAll()
             .OrderBy(c => c.Id)
             .ToList();
+
+        public Customer GetCustomer(int Id)
+        {
+            return Get(Id);
+        }
+       
     }
 }

@@ -45,9 +45,43 @@ namespace CustomerAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetCompanies)} action { ex}");
-            return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Internal server error");
             }
         }
+
+
+
+        [HttpGet("{Id}")]
+        public IActionResult GetCompany(int id)
+        {
+            try
+            {
+                var customer = _repository.Customer.GetCustomer(id);
+                if (customer == null)
+                {
+                    _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                    return NotFound();
+                }
+                else
+                {
+                    var customerDto = new CustomerDTO
+                    {
+                        Id = customer.Id,
+                        Name = customer.Name,
+                        Birthday = customer.Birthday,
+                        Email = customer.Email,
+                        CreatedAt = customer.CreatedAt,
+                        UpdatedAt = customer.UpdatedAt
+                    };
+                    return Ok(customerDto);
+                }
+            }catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
     }
 
 }
